@@ -1,0 +1,5 @@
+<launch>
+
+   <node pkg="drone_contest_2022" name="action_server" type="action_server" output="screen" />
+
+</launch>

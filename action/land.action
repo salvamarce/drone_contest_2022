@@ -1,0 +1,8 @@
+#goal definition
+float32 duration
+---
+#result definition
+bool finished
+---
+#feedback
+float32 actual_alt
