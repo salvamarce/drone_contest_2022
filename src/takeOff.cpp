@@ -29,6 +29,8 @@ void takeOffAction::pose_cb(geometry_msgs::PoseStamped msg){
 
 void takeOffAction::executeCB(const drone_contest_2022::takeOffGoalConstPtr &goal){
 
+    bool result;
+
     //Set up control mode
     mavros_msgs::CommandBool arm_cmd;
     arm_cmd.request.value = true;
@@ -36,6 +38,8 @@ void takeOffAction::executeCB(const drone_contest_2022::takeOffGoalConstPtr &goa
     offb_set_mode.request.custom_mode = "OFFBOARD";
     //---
     
+    result = false;
+
     while( !_first_local_pos )
         usleep(0.1*1e6);
     ROS_INFO("First local pose arrived!");
@@ -72,12 +76,14 @@ void takeOffAction::executeCB(const drone_contest_2022::takeOffGoalConstPtr &goa
         while( fabs(_pos_odom(2)-goal->altitude_setpoint) > 0.1)
             usleep(0.1*1e6);
 
-        _result.finished = true;
-
         ROS_INFO("%s: Succeeded ", _action_name.c_str());
-        _as.setSucceeded(_result);
+        result = true;
+        
     }
     else
         ROS_INFO("Action did not finish before the time out.");
+
+    _result.finished = result;
+    _as.setSucceeded(_result);
 
 }

@@ -15,6 +15,9 @@
 using Eigen::MatrixXd;
 using Eigen::MatrixXf;
 
+// --- Trapezoidal velocity profile ---
+std::tuple<std::vector<float>, std::vector<float>, std::vector<float>> computeTrapezoidalTraj(std::vector<float> vec_q0, std::vector<float> vec_qf, std::vector<float> vec_tf, std::vector<float> vec_anticipation);
+
 // --- 3 order ---
 MatrixXf computeCubicCoeff(float t0, float tf, std::vector<float> vec_q0, std::vector<float> vec_qf);
 std::tuple<std::vector<float>, std::vector<float>, std::vector<float>> computeCubicTraj(MatrixXf A, float t0, float tf, int n);

@@ -30,8 +30,8 @@ class landAction{
 
         mavros_msgs::State _mstate;
 
-        drone_contest_2022::landFeedback _feedback;
         drone_contest_2022::landResult _result;
+        drone_contest_2022::landFeedback _feedback;
 
         drone_contest_2022::moveToGoal _move_goal;
 

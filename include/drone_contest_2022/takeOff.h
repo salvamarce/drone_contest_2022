@@ -29,8 +29,8 @@ class takeOffAction{
 
         mavros_msgs::State _mstate;
 
-        drone_contest_2022::takeOffFeedback _feedback;
         drone_contest_2022::takeOffResult _result;
+        drone_contest_2022::takeOffFeedback _feedback;
 
         drone_contest_2022::moveToGoal _move_goal;
 

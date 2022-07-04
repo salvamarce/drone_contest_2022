@@ -46,12 +46,15 @@ void setPointPublisher::publisher(){
 
     mavros_msgs::PositionTarget ptarget;
     ptarget.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
-    ptarget.type_mask =
+    // ptarget.type_mask =
+        // mavros_msgs::PositionTarget::IGNORE_PX |
+        // mavros_msgs::PositionTarget::IGNORE_PY |
+        // mavros_msgs::PositionTarget::IGNORE_PZ |
         mavros_msgs::PositionTarget::IGNORE_AFX |
         mavros_msgs::PositionTarget::IGNORE_AFY |
         mavros_msgs::PositionTarget::IGNORE_AFZ |
-        mavros_msgs::PositionTarget::FORCE |
-        mavros_msgs::PositionTarget::IGNORE_YAW_RATE;
+        mavros_msgs::PositionTarget::FORCE ;
+        // mavros_msgs::PositionTarget::IGNORE_YAW_RATE;
 
     while( !_first_local_pos )
         usleep(0.1*1e6);

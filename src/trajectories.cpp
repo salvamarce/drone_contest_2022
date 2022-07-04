@@ -316,6 +316,32 @@ std::tuple<std::vector<float>, std::vector<float>, std::vector<float>, std::vect
 }
 
 
+// --- Trapezoidal velocity profile ---
+std::tuple<std::vector<float>, std::vector<float>, std::vector<float>, std::vector<float>> computeTrapezoidalTraj(float q0, float qf, float d_q_max, int n){
+
+    // std::vector<float> qd;
+    // std::vector<float> d_qd;
+    // std::vector<float> dd_qd;
+    // std::vector<float> time;
+
+    // // I use the medium tf
+    // float tf = 1.5 * fabs( (qf-q0)/d_q_max );
+    
+    // float tc = ( q0 - qf + v_max * tf) / d_q_max;
+    // float dd_q_max = (d_q_max^2) / ( q0 - qf + d_q_max * tf);
+
+    // float step = tf/n;
+
+    // for (float t = 0.0; t < tf; t += step){
+        
+    //     if(t <= tc){
+            
+    //     }
+
+    // }
+}
+
+
 // //-------------------plot 3---------------------------------------------------
 
 // void plotResults(std::tuple<std::vector<float>, std::vector<float>, std::vector<float>> qdt)

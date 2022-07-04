@@ -37,6 +37,8 @@ void landAction::pose_cb(geometry_msgs::PoseStamped msg){
 
 void landAction::executeCB(const drone_contest_2022::landGoalConstPtr &goal){
 
+    bool result;
+
     //Set up control mode
     mavros_msgs::CommandBool arm_cmd;
     arm_cmd.request.value = true;
@@ -44,6 +46,8 @@ void landAction::executeCB(const drone_contest_2022::landGoalConstPtr &goal){
     offb_set_mode.request.custom_mode = "OFFBOARD";
     //---
     
+    result = false;
+
     while( !_first_local_pos )
         usleep(0.1*1e6);
     ROS_INFO("First local pose arrived!");
@@ -58,14 +62,14 @@ void landAction::executeCB(const drone_contest_2022::landGoalConstPtr &goal){
 
     _move_goal.x_setpoint = _pos_odom(0);
     _move_goal.y_setpoint = _pos_odom(1);
-    _move_goal.z_setpoint = 0.0;
+    _move_goal.z_setpoint = -0.5;
     _move_goal.yaw_setpoint = _yaw_odom;
     _move_goal.duration = goal->duration;
 
     _ac.sendGoal(_move_goal);
 
-    wait for the action to return
-    bool finished_before_timeout = _ac.waitForResult(ros::Duration(goal->duration+0.2));
+    //wait for the action to return
+    bool finished_before_timeout = _ac.waitForResult(ros::Duration(goal->duration+2.0));
   
     if (finished_before_timeout)
     {
@@ -77,11 +81,15 @@ void landAction::executeCB(const drone_contest_2022::landGoalConstPtr &goal){
         while( _mstate.armed ) usleep(0.1*1e6);
         cout << "Disarmed!" << endl;
         
-        _result.finished = true;
         ROS_INFO("%s: Succeeded ", _action_name.c_str());
-        _as.setSucceeded(_result);
+        result = true;
+
     }
     else
         ROS_INFO("Action did not finish before the time out.");
+
+    _result.finished = result;
+    _as.setSucceeded(_result);
+
 
 }

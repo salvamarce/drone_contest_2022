@@ -11,7 +11,7 @@ The simulation and the autopilot are based on PX4 v1.12.3 and ROS Melodic/Noetic
 
 Clone the repository with the simulator and the PX4 firmware 
 
-```bash
+```
 git clone --recursive https://github.com/salvamarce/PX4_drone_contest.git PX4-Autopilot
 ```
 
@@ -21,7 +21,7 @@ and refer to the official [installation guide of PX4](https://docs.px4.io/master
 
 To start the action server, type
 
-```bash
+```
 roslaunch drone_contest_2022 action_server.launch
 ```
 This will start:
@@ -32,7 +32,7 @@ This will start:
 To use the actions you can create your own action clients or publish a goal from a new terminal, for example
 
 
-```bash
+```
 rostopic pub /takeOff/goal drone_contest_2022/takeOffActionGoal 
 "header:
   seq: 0

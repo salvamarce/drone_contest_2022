@@ -150,7 +150,7 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(action_server src/actionServer.cpp src/moveTo.cpp src/trajectories.cpp src/takeOff.cpp src/land.cpp src/setpointPublisher.cpp)
-
+add_executable(interactive_planner src/interactivePlanner.cpp src/moveTo.cpp src/trajectories.cpp src/takeOff.cpp src/land.cpp src/setpointPublisher.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -165,6 +165,9 @@ add_executable(action_server src/actionServer.cpp src/moveTo.cpp src/trajectorie
 target_link_libraries(action_server
   ${catkin_LIBRARIES}
 )
+target_link_libraries(interactive_planner
+  ${catkin_LIBRARIES}
+)
 
 
 
@@ -177,10 +180,10 @@ target_link_libraries(action_server
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+catkin_install_python(PROGRAMS
+  scripts/laserToCloud.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html

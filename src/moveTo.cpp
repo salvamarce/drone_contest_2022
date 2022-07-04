@@ -38,6 +38,8 @@ void moveToAction::executeCB(const drone_contest_2022::moveToGoalConstPtr &goal)
     _y_0 = _old_y_sp;
     _z_0 = _old_z_sp;
     _yaw_0 = _old_yaw_sp;
+    if( _yaw_0 == 6.28 || _yaw_0 == -6.28)
+        _yaw_0 = 0.0;
     ROS_INFO("valore old: %f %f %f %f", _x_0, _y_0, _z_0, _yaw_0);
 
     _vel_0 = _acc_0 = 0.0;
@@ -47,6 +49,8 @@ void moveToAction::executeCB(const drone_contest_2022::moveToGoalConstPtr &goal)
     _y_f = goal->y_setpoint;
     _z_f = goal->z_setpoint;
     _yaw_f = goal->yaw_setpoint;
+    if( _yaw_f == 6.28 || _yaw_f == -6.28)
+        _yaw_f = 0.0;
     ROS_INFO("valore goal: %f %f %f %f", _x_f, _y_f, _z_f, _yaw_f);
 
     std::vector<float> vec_x0{_x_0, _vel_0, _acc_0};

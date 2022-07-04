@@ -1,0 +1,10 @@
+takeOff_height: 1.5
+takeOff_duration: 5.0
+
+land_duration: 5.0
+
+x_setpoints: [0.0, 0.0, 0.0]
+y_setpoints: [0.0, 0.0, 0.0]
+z_setpoints: [1.5, 1.5, 1.5]
+yaw_setpoints: [3.14, 6.28, 1.57]
+sp_duration: [5.0, 5.0, 5.0]
