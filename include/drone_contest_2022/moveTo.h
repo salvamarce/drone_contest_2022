@@ -2,7 +2,9 @@
 #include "actionlib/server/simple_action_server.h"
 #include "drone_contest_2022/moveToAction.h"
 #include "std_msgs/Float32MultiArray.h"
+#include "geometry_msgs/PoseStamped.h"
 #include "drone_contest_2022/trajectories.h"
+#include "drone_contest_2022/utils.h"
 
 using namespace std;
 
@@ -11,6 +13,7 @@ class moveToAction{
     protected:
 
         void setpoint_cb(std_msgs::Float32MultiArray sp);
+        void odom_cb(geometry_msgs::PoseStamped msg);
 
         ros::NodeHandle _nh;
         
@@ -21,6 +24,7 @@ class moveToAction{
 
         ros::Publisher _setpoint_pub;
         ros::Subscriber _setpoint_sub;
+        ros::Subscriber _odom_sub;
         
         Eigen::Matrix<float, 6,1> _traj_x_A;
         Eigen::Matrix<float, 6,1> _traj_y_A;

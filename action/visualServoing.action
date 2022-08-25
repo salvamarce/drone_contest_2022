@@ -1,0 +1,9 @@
+#goal definition
+float32 target_id
+float32 duration
+---
+#result definition
+bool finished
+---
+#feedback
+float32 elapsed_time

@@ -8,4 +8,7 @@ float32 actual_vx_sp
 float32 actual_vy_sp
 float32 actual_vz_sp
 float32 actual_yaw_rate_sp
+float32 actual_ax_sp
+float32 actual_ay_sp
+float32 actual_az_sp
 

@@ -66,7 +66,7 @@ void takeOffAction::executeCB(const drone_contest_2022::takeOffGoalConstPtr &goa
     _ac.sendGoal(_move_goal);
 
     //wait for the action to return
-    bool finished_before_timeout = _ac.waitForResult(ros::Duration(goal->duration+1.0));
+    bool finished_before_timeout = _ac.waitForResult(ros::Duration(goal->duration+2.0));
   
     if (finished_before_timeout)
     {

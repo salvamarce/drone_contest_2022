@@ -373,6 +373,15 @@ namespace utilities{
 		rad = M_PI*deg/180.0;
 		return rad;
 	}
+
+	inline int sign(float val){
+		if(val < 0.0)
+			return -1;
+		else if (val == 0.0)
+			return 0;
+		else	
+			return 1;
+	}
 }
 
 #endif

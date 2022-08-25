@@ -12,6 +12,7 @@ _as(_nh, name, boost::bind(&moveToAction::executeCB, this, _1), false), _action_
 
     _setpoint_pub = _nh.advertise<std_msgs::Float32MultiArray>( _setpoint_topic.c_str() , 1);
     _setpoint_sub = _nh.subscribe( _setpoint_topic.c_str() , 1, &moveToAction::setpoint_cb, this);
+    _odom_sub = _nh.subscribe( "/mavros/vision_pose/pose" , 1, &moveToAction::odom_cb, this);
 
     _dt = 1.0/_traj_rate;
 
@@ -28,6 +29,16 @@ void moveToAction::setpoint_cb(std_msgs::Float32MultiArray sp){
     _old_y_sp = sp.data[1];
     _old_z_sp = sp.data[2];
     _old_yaw_sp = sp.data[3];
+}
+
+void moveToAction::odom_cb(geometry_msgs::PoseStamped msg){
+    // _old_x_sp = msg.pose.position.x;
+    // _old_y_sp = msg.pose.position.y;
+    // _old_z_sp = msg.pose.position.z;
+
+    // Eigen::Vector3d rpy;
+    // rpy = utilities::R2XYZ ( utilities::QuatToMat ( Eigen::Vector4d( msg.pose.orientation.w,  msg.pose.orientation.x,  msg.pose.orientation.y,  msg.pose.orientation.z) ) );
+    // _old_yaw_sp = rpy(2);
 }
 
 void moveToAction::executeCB(const drone_contest_2022::moveToGoalConstPtr &goal){
@@ -51,6 +62,7 @@ void moveToAction::executeCB(const drone_contest_2022::moveToGoalConstPtr &goal)
     _yaw_f = goal->yaw_setpoint;
     if( _yaw_f == 6.28 || _yaw_f == -6.28)
         _yaw_f = 0.0;
+ 
     ROS_INFO("valore goal: %f %f %f %f", _x_f, _y_f, _z_f, _yaw_f);
 
     std::vector<float> vec_x0{_x_0, _vel_0, _acc_0};
@@ -94,7 +106,7 @@ void moveToAction::executeCB(const drone_contest_2022::moveToGoalConstPtr &goal)
     std::vector<float> yawd     = std::get<1>(yawdt);
     std::vector<float> d_yawd   = std::get<2>(yawdt);
 
-    _setpoint.data.resize(8);
+    _setpoint.data.resize(11);
 
     for( int i=0; i<n_points-1; i++){
         ROS_INFO("%s: Executing, goal_x: %f, feedback_y: %f ", _action_name.c_str(), goal->x_setpoint, &_feedback.actual_x_sp);
@@ -115,6 +127,9 @@ void moveToAction::executeCB(const drone_contest_2022::moveToGoalConstPtr &goal)
         _setpoint.data[5] = d_yd[i];
         _setpoint.data[6] = d_zd[i];
         _setpoint.data[7] = d_yawd[i];
+        _setpoint.data[8] = dd_xd[i];
+        _setpoint.data[9] = dd_yd[i];
+        _setpoint.data[10]= dd_zd[i];
 
         _feedback.actual_x_sp = xd[i];
         _feedback.actual_y_sp = yd[i];
@@ -124,6 +139,9 @@ void moveToAction::executeCB(const drone_contest_2022::moveToGoalConstPtr &goal)
         _feedback.actual_vy_sp = d_yd[i];
         _feedback.actual_vz_sp = d_zd[i];
         _feedback.actual_yaw_rate_sp = d_yawd[i];
+        _feedback.actual_ax_sp = dd_xd[i];
+        _feedback.actual_ay_sp = dd_yd[i];
+        _feedback.actual_az_sp = dd_zd[i];
 
         _as.publishFeedback(_feedback);
         ROS_INFO("Feedback: %f %f %f %f", _feedback.actual_x_sp, _feedback.actual_y_sp, _feedback.actual_z_sp, _feedback.actual_yaw_sp);

@@ -1,5 +1,13 @@
 <launch>
+   <arg name="new_terminal" default="false" />
+   
+   <group if="$(arg new_terminal)">
+       <node pkg="drone_contest_2022" name="action_server" type="action_server" output="screen" 
+             launch-prefix="gnome-terminal --" />
+   </group>
 
-   <node pkg="drone_contest_2022" name="action_server" type="action_server" output="screen" />
+   <group unless="$(arg new_terminal)">
+       <node pkg="drone_contest_2022" name="action_server" type="action_server" output="screen" />
+   </group>
 
 </launch>
