@@ -1,0 +1,18 @@
+<launch>
+
+    <rosparam file="$(find drone_contest_2022)/config/target_path.yaml"  />
+    <node pkg="tf" type="static_transform_publisher" name="tf_baseLink_cameraPose"
+          args="0 0 0 0 1.5708 0 base_link camera_link 1000"/>
+
+    <node pkg="aruco_ros" type="marker_publisher" name="aruco_marker_publisher">
+        <remap from="/camera_info" to="/camera/rgb/camera_info" />
+        <remap from="/image" to="/camera/rgb/image_raw" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size"        value="0.19"/>
+        <param name="reference_frame"    value=""/>   <!-- frame in which the marker pose will be refered -->
+        <param name="camera_frame"       value="camera_link"/>
+    </node>
+
+    <node pkg="drone_contest_2022" type="target_path" name="target_path" output="screen" />
+
+</launch>

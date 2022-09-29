@@ -7,6 +7,8 @@ project(drone_contest_2022)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+
+
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   actionlib_msgs
@@ -16,10 +18,13 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   mavros_msgs
+  gazebo_msgs
+  cv_bridge
+  
+  image_transport
 )
 
 include_directories(/usr/include/eigen3)
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -117,7 +122,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES drone_contest_2022
   CATKIN_DEPENDS actionlib actionlib_msgs message_generation roscpp rospy std_msgs 
-                 geometry_msgs mavros_msgs
+                 geometry_msgs mavros_msgs image_transport
   DEPENDS message_runtime
 #  DEPENDS system_lib
 )
@@ -131,6 +136,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -151,6 +157,9 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(action_server src/actionServer.cpp src/moveTo.cpp src/trajectories.cpp src/takeOff.cpp src/land.cpp src/setpointPublisher.cpp)
 add_executable(interactive_planner src/interactivePlanner.cpp src/moveTo.cpp src/trajectories.cpp src/takeOff.cpp src/land.cpp src/setpointPublisher.cpp)
+add_executable(target_path src/target_path.cpp)
+add_executable(aruco_detection src/aruco_detection.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -168,7 +177,14 @@ target_link_libraries(action_server
 target_link_libraries(interactive_planner
   ${catkin_LIBRARIES}
 )
+target_link_libraries(target_path
+  ${catkin_LIBRARIES}
+)
 
+target_link_libraries(aruco_detection
+  ${catkin_LIBRARIES}
+  opencv_highgui
+)
 
 
 #############

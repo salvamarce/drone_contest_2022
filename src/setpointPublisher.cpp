@@ -192,7 +192,7 @@ std::tuple<float, float, float> setPointPublisher::collisionAvoidance(const floa
 
 void setPointPublisher::publisher(){
     
-    int rate = 50;
+    int rate = 100;
     float dt = 1.0/rate;
 
     ros::Rate r(rate);
